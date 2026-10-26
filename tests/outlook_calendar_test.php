@@ -51,6 +51,8 @@ final class outlook_calendar_test extends \advanced_testcase
     public function test_create_teams_meeting_invites_only_active_course_users(): void
     {
         $activity = $this->activity();
+        $activity->eventstart = (string)$activity->eventstart;
+        $activity->eventend = (string)$activity->eventend;
         $generator = $this->getDataGenerator();
         $student = $generator->create_user(['email' => 'student@example.com']);
         $teacher = $generator->create_user(['email' => 'teacher@example.com']);
@@ -82,7 +84,8 @@ final class outlook_calendar_test extends \advanced_testcase
                 $this->assertTrue($event['isOnlineMeeting']);
                 $this->assertSame('teamsForBusiness', $event['onlineMeetingProvider']);
                 $this->assertSame('Teams seminar', $event['subject']);
-                $this->assertSame('UTC', $event['start']['timeZone']);
+                $this->assertSame(['dateTime' => '2026-10-22T10:00:00', 'timeZone' => 'UTC'], $event['start']);
+                $this->assertSame(['dateTime' => '2026-10-22T11:00:00', 'timeZone' => 'UTC'], $event['end']);
                 $this->assertSame('mod-outlookevent-123', $event['transactionId']);
                 $this->assertSame([
                     ['emailAddress' => ['address' => $student->email], 'type' => 'required'],

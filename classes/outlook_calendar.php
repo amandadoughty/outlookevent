@@ -27,8 +27,8 @@ final class outlook_calendar
         $event = [
             'subject' => $activity->name,
             'body' => ['contentType' => 'HTML', 'content' => $intro],
-            'start' => ['dateTime' => gmdate('Y-m-d\TH:i:s', $activity->eventstart), 'timeZone' => 'UTC'],
-            'end' => ['dateTime' => gmdate('Y-m-d\TH:i:s', $activity->eventend), 'timeZone' => 'UTC'],
+            'start' => ['dateTime' => gmdate('Y-m-d\TH:i:s', (int)$activity->eventstart), 'timeZone' => 'UTC'],
+            'end' => ['dateTime' => gmdate('Y-m-d\TH:i:s', (int)$activity->eventend), 'timeZone' => 'UTC'],
             'isOnlineMeeting' => true,
             'onlineMeetingProvider' => 'teamsForBusiness',
             'attendees' => $this->attendees($activity),
