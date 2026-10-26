@@ -36,6 +36,9 @@ final class graph_client
 
     private function request(string $method, string $path, ?array $data = null, bool $retry = true): array
     {
+        global $CFG;
+        require_once($CFG->libdir . '/filelib.php');
+
         $curl = $this->curl ?? new \curl();
         $curl->setHeader(['Authorization: Bearer ' . $this->auth->token(), 'Content-Type: application/json', 'Accept: application/json']);
         $url = 'https://graph.microsoft.com/v1.0/' . ltrim($path, '/');

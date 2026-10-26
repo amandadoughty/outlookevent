@@ -22,10 +22,13 @@ final class graph_auth
 
     public function token(): string
     {
+        global $CFG;
+
         $cache = \cache::make('mod_outlookevent', 'graphtoken');
         $key = sha1($this->tenantid . ':' . $this->clientid);
         $token = $cache->get($key);
         if (is_array($token) && ($token['expires'] ?? 0) > time() + self::BUFFER) return $token['value'];
+        require_once($CFG->libdir . '/filelib.php');
         $curl = new \curl();
         $response = $curl->post('https://login.microsoftonline.com/' . rawurlencode($this->tenantid) . '/oauth2/v2.0/token', [
             'client_id' => $this->clientid, 'client_secret' => $this->secret,
